@@ -310,7 +310,7 @@ export default function Dashboard() {
               <Space>
                 <HistoryOutlined />
                 <Title level={3} style={{ margin: 0 }}>
-                  Today's Activity
+                  Today&apos;s Activity
                 </Title>
               </Space>
             }

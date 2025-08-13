@@ -14,6 +14,12 @@ const { Title, Text } = Typography;
 export default function Home() {
   const { user, login, isLoading } = useAuth();
 
+  React.useEffect(() => {
+    if (user) {
+      window.location.href = "/dashboard";
+    }
+  }, [user]);
+
   if (isLoading) {
     return (
       <Layout>
@@ -111,10 +117,6 @@ export default function Home() {
       </Layout>
     );
   }
-
-  React.useEffect(() => {
-    window.location.href = "/dashboard";
-  }, []);
 
   return (
     <Layout>
