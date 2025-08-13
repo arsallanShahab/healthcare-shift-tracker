@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+enum UserRole {
+  MANAGER
+  CARE_WORKER
+}
+
+enum ShiftStatus {
+  CLOCKED_IN
+  CLOCKED_OUT
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  role           UserRole @default(CARE_WORKER)
+  organizationId String?
+  auth0Id        String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  shifts       Shift[]
+
+  @@map("users")
+}
+
+model Organization {
+  id              String  @id @default(cuid())
+  name            String
+  allowedRadius   Float   @default(2000) // in meters, default 2km
+  centerLatitude  Float?
+  centerLongitude Float?
+  isActive        Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  users     User[]
+  locations Location[]
+
+  @@map("organizations")
+}
+
+model Location {
+  id             String  @id @default(cuid())
+  organizationId String
+  name           String
+  latitude       Float
+  longitude      Float
+  radius         Float   @default(1000) // in meters
+  isActive       Boolean @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("locations")
+}
+
+model Shift {
+  id               String      @id @default(cuid())
+  userId           String
+  status           ShiftStatus @default(CLOCKED_IN)
+  clockInTime      DateTime
+  clockOutTime     DateTime?
+  clockInLatitude  Float
+  clockInLongitude Float
+  clockInAddress   String?
+  clockInNote      String?
+  clockOutLatitude  Float?
+  clockOutLongitude Float?
+  clockOutAddress   String?
+  clockOutNote      String?
+  duration         Int?        // in minutes
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("shifts")
+}
