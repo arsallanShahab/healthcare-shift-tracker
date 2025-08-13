@@ -2,7 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 // import { getSession } from "@auth0/nextjs-auth0/server";
 import { auth0 } from "@/lib/auth0";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { resolvers } from "../../../lib/graphql/resolvers";
 import { typeDefs } from "../../../lib/graphql/schema";
 
@@ -36,4 +36,10 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
   },
 });
 
-export { handler as GET, handler as POST };
+export async function GET(request: NextRequest) {
+  return handler(request);
+}
+
+export async function POST(request: NextRequest) {
+  return handler(request);
+}
