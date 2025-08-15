@@ -212,6 +212,16 @@ export default function History() {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
+
   if (!user) {
     return (
       <Layout>

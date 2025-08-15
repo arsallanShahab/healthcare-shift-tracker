@@ -226,6 +226,16 @@ export default function ClockOut() {
     }
   };
 
+  if (locationLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
+
   if (!user) {
     return (
       <Layout>
