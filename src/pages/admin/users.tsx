@@ -10,10 +10,12 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   Button,
   Card,
+  Flex,
   message,
   Popconfirm,
   Select,
   Space,
+  Spin,
   Table,
   Tag,
   Typography,
@@ -24,7 +26,7 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 export default function UsersManagement() {
-  const { user, isManager } = useAuth();
+  const { user, isManager, isLoading } = useAuth();
   const [updateUserRole] = useMutation(UPDATE_USER_ROLE);
 
   const { data, loading, refetch } = useQuery(GET_ORGANIZATION_STAFF, {
@@ -121,6 +123,16 @@ export default function UsersManagement() {
       ),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
 
   if (!isManager) {
     return (

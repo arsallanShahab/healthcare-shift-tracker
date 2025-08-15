@@ -29,7 +29,7 @@ const { Title, Text } = Typography;
 const { TextArea } = Input;
 
 export default function ClockOut() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const {
     currentLocation,
     refreshLocation,

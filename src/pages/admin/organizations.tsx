@@ -18,6 +18,7 @@ import {
   Button,
   Card,
   Col,
+  Flex,
   Form,
   Input,
   InputNumber,
@@ -27,6 +28,7 @@ import {
   Row,
   Select,
   Space,
+  Spin,
   Table,
   Tag,
   Typography,
@@ -61,7 +63,7 @@ interface Location {
 }
 
 export default function OrganizationManagement() {
-  const { user, isManager } = useAuth();
+  const { user, isManager, isLoading } = useAuth();
   const [isOrgModalVisible, setIsOrgModalVisible] = useState(false);
   const [isLocationModalVisible, setIsLocationModalVisible] = useState(false);
   const [selectedOrg, setSelectedOrg] = useState<string | null>(null);
@@ -117,6 +119,16 @@ export default function OrganizationManagement() {
       },
     }
   );
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
 
   if (!user) {
     return (

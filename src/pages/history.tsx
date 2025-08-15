@@ -44,7 +44,7 @@ interface ShiftRecord {
 }
 
 export default function History() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
   const [statusFilter, setStatusFilter] = useState<string>("ALL");

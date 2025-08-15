@@ -33,7 +33,7 @@ import React, { useEffect, useState } from "react";
 const { Title, Text } = Typography;
 
 export default function Dashboard() {
-  const { user, isManager } = useAuth();
+  const { user, isManager, isLoading } = useAuth();
   const { currentLocation, refreshLocation, permissionStatus } = useLocation();
   const [locationLoading, setLocationLoading] = useState(false);
 
@@ -82,6 +82,16 @@ export default function Dashboard() {
   const handleClockOut = () => {
     window.location.href = "/clock-out";
   };
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
 
   if (!user) {
     return (

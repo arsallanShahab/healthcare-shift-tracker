@@ -16,8 +16,10 @@ import {
   Alert,
   Card,
   Col,
+  Flex,
   Row,
   Space,
+  Spin,
   Statistic,
   Table,
   Tag,
@@ -47,7 +49,7 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard() {
-  const { user, isManager } = useAuth();
+  const { user, isManager, isLoading } = useAuth();
 
   const { data: statsData, loading: statsLoading } = useQuery(
     GET_DASHBOARD_STATS,
@@ -72,6 +74,16 @@ export default function AdminDashboard() {
       skip: !user?.organizationId,
     }
   );
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <Flex align="center" justify="center" style={{ padding: "2rem" }}>
+          <Spin />
+        </Flex>
+      </Layout>
+    );
+  }
 
   if (!user) {
     return (
